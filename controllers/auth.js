@@ -30,7 +30,7 @@ exports.signin = (req, res) => {
         // if user is found we have to match the password
         // created a authentication model in ../models/user
         if(!user.authenticate(password)) {
-            res.status(401).json(
+            return res.status(401).json(
                 {
                     error: "Email and password doesn't match"
                 }
@@ -40,7 +40,7 @@ exports.signin = (req, res) => {
         const token = jwt.sign({ _id: user._id}, process.env.jwt_secret);
 
         // persist the token as 't' in the cookie with expiry date
-        res.cookie('t', token, {expiry: new Date() + 9999});
+        res.cookie('t', token, {expire: new Date() + 9999});
 
         //return response with user and token to frontend
         const { _id, name, email, role } =user;
